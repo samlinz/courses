@@ -1,4 +1,4 @@
-package com.testiappi.kurssiapplikaatio;
+package fi.samlinz.androidcourse;
 
 import android.graphics.Color;
 import android.os.Bundle;

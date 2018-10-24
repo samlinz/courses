@@ -1,4 +1,4 @@
-package com.testiappi.kurssiapplikaatio;
+package fi.samlinz.androidcourse;
 
 import android.content.Intent;
 import android.os.Bundle;
