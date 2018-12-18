@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Notebook!</title>
+    </head>
+
+    <body>
+        <h1>Notebook!</h1>
+        <ol>
+            <li th:each="note : ${notes}">
+                <span th:text="${note}"></span>
+            </li>
+        </ol>
+
+        <form th:action="@{/}">
+            <input type="text" name="note" placeholder="öognegnfi :D"/>
+            <input type="submit" value="Submit :D" />
+        </form>
+    </body>
+</html>
