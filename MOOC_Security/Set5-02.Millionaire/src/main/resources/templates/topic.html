@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Who wants to be a millionaire?</title>
+        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    <body>
+        <center>
+            <h1>Who wants to be a millionaire?</h1>
+            <h2 th:text="${topic.name + ' edition'}">name edition</h2>
+
+            <p></p>
+
+            <a th:href="@{/topics/{topicId}/levels/1(topicId=${topic.id})}"><span class="blink">start</span></a>
+        </center>
+    </body>
+</html>

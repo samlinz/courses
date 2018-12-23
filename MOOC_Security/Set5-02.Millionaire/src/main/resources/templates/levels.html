@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Who wants to be a millionaire?</title>
+        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    <body>
+
+        <h1 th:text="${feedback}"></h1>
+
+        <ul>
+            <li th:each="level: ${levels}"><span th:text="${level.level}">id.</span>. <span th:text="${level.reward}">sum</span>
+                <a th:if="${level.level == session.level}" th:href="@{/topics/{topicId}/levels/{levelId}/questions(topicId=${topic.id},levelId=${level.level})}">Go!</a>
+            </li>
+        </ul>
+
+    </body>
+</html>

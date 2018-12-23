@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Who wants to be a millionaire?</title>
+        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    <body>
+
+        <p th:utext="${question.text}">The actual question</p>
+
+        <p>Your answer:</p>
+
+        <ol type="A">
+            <li th:each="option: ${question.answerOptions}">
+                <a th:href="@{/topics/{topicId}/levels/{levelId}/questions/{questionId}/answers/{answerId}(topicId=${session.topic},levelId=${session.level},questionId=${question.id},answerId=${option.id})}"><span th:utext="${option.text}">option text</span></a>
+                <br/><br/>
+            </li>
+        </ol>
+
+    </body>
+</html>
