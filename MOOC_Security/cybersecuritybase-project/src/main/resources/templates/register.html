@@ -5,11 +5,11 @@
     </head>
     <body>
 
-        <h1>Sign up to the event using this form</h1>
+        <h1>Sign up</h1>
 
-        <form action="#" th:action="@{/form}" method="POST">
+        <form action="#" th:action="@{/signup}" method="POST">
             <p><label for="name">Name</label>: <input type="text" name="name" id="name"/></p>
-            <p><label for="address">Address</label>: <input type="text" name="address" id="address"/></p>
+            <p><label for="pwd">Password</label>: <input type="password" name="pwd" id="pwd"/></p>
             <p><input type="submit" value="Submit" /></p>
         </form>
 
