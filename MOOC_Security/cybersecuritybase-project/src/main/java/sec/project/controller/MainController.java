@@ -35,7 +35,7 @@ public class MainController {
         User existingUser = repository.getUser(name);
         if (existingUser != null) {
             response.setStatus(400);
-            return "User exists already";
+            return "error";
         }
 
         repository.addUser(name, pwd);
@@ -44,14 +44,16 @@ public class MainController {
     }
 
     @RequestMapping(value = "/notes", method = RequestMethod.GET)
-    public String notes(@CookieValue(value = "session", defaultValue = "") String token, Model model) throws SQLException {
+    public String notes(@CookieValue(value = "session", defaultValue = "") String token
+            , @RequestParam(required = false) String filter
+            , Model model) throws SQLException {
         User user = getUserIfLoggedIn(token);
         if (user == null) {
             return "redirect:/";
         }
 
         // Fetch all notes and add to model.
-        model.addAttribute("notes", repository.getNotes());
+        model.addAttribute("notes", repository.getNotes(user.name, filter));
 
         return "notes";
     }
@@ -59,6 +61,7 @@ public class MainController {
     @RequestMapping(value = "/notes", method = RequestMethod.POST)
     public String notes(@CookieValue(value = "session", defaultValue = "") String token
             , @RequestParam String message
+            , @RequestParam(required = false) String privateNote
             , HttpServletResponse response) throws SQLException {
         User user = getUserIfLoggedIn(token);
         if (user == null) {
@@ -66,7 +69,7 @@ public class MainController {
             return "forbidden";
         }
 
-        repository.addNote(user.name, message);
+        repository.addNote(user.name, message, privateNote != null &&   privateNote.equals("on"));
 
         return "redirect:/notes";
     }
@@ -81,7 +84,7 @@ public class MainController {
         return "signin";
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @RequestMapping(value = "/signoff", method = RequestMethod.GET)
     public String logout(@CookieValue(value = "session", defaultValue = "") String token, HttpServletResponse response) throws SQLException {
         User user = getUserIfLoggedIn(token);
         if (user != null) {

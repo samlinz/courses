@@ -5,13 +5,27 @@
     </head>
     <body>
 
-    <a th:href="@{/logout}">Log out</a>
+    <a th:href="@{/signoff}">Log out</a>
+
+    <hr />
 
     <h1>Submit a new note</h1>
     <form action="#" th:action="@{/notes}" method="POST">
         <p><input type="text" name="message" id="message"/></p>
+        <p><label for="privateNote">Private note?</label><input type="checkbox" name="privateNote" id="privateNote"/></p>
         <p><input type="submit" value="Submit" /></p>
     </form>
+
+    <hr />
+
+    <h1>Filter notes</h1>
+    <form action="#" th:action="@{/notes}" method="GET">
+        <p><input type="text" name="filter" id="filter"/></p>
+        <p><input type="submit" value="Submit" /></p>
+    </form>
+
+    <hr />
+
 
     <h1>Notes</h1>
     <ul>
@@ -19,6 +33,9 @@
             <strong><span th:utext="${entry.user}"></span></strong>
             <em><span th:utext="${entry.message}"></span></em>
         </li>
+
+        <p th:if="${notes.isEmpty()}">No notes, create some!</p>
+
     </ul>
 
     </body>

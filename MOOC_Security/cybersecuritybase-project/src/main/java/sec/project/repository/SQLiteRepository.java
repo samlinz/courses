@@ -36,7 +36,7 @@ public class SQLiteRepository {
                 "create table Users(name text primary key, pwd text not null, token text null)");
         // Notes table, stores user created notes.
         createTablesStatement.executeUpdate(
-                "create table Notes(user text not null, msg text not null)");
+                "create table Notes(user text not null, msg text not null, private integer not null)");
     }
 
     /**
@@ -52,9 +52,10 @@ public class SQLiteRepository {
     /**
      * Add a new note to database.
      */
-    public boolean addNote(String user, String message) throws SQLException {
+    public boolean addNote(String user, String message, boolean privateNote) throws SQLException {
         Statement statement = connection.createStatement();
-        final String query = String.format("insert into Notes(user, msg) values ('%s', '%s')", user, message);
+        final String query = String.format("insert into Notes(user, msg, private) values ('%s', '%s', %d)"
+                , user, message, privateNote ? 1 : 0);
         int i = statement.executeUpdate(query);
         return i == 1;
     }
@@ -62,9 +63,13 @@ public class SQLiteRepository {
     /**
      * Get all notes from database.
      */
-    public List<Note> getNotes() throws SQLException {
+    public List<Note> getNotes(String user, String filter) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("select * from Notes");
+        final String query = String.format(
+                "select * from Notes where (private = 0 or (private = 1 and user='%1$s')) and ('%2$s' = 'null' or msg like '%%%2$s%%')"
+                , user
+                , (filter != null && !filter.isEmpty()) ? filter : "null");
+        ResultSet resultSet = statement.executeQuery(query);
 
         List<Note> result = new ArrayList<>();
         while (resultSet.next()) {
